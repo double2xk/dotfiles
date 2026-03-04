@@ -1,9 +1,44 @@
 return {
-  "neovim/nvim-lspconfig",
 
+  --- tools
+  {
+    "mason-org/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+
+  --- completion engine
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+      local cmp = require("cmp")
+
+      cmp.setup({
+        mapping = cmp.mapping.preset.insert({
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+          ["<CR>"] = cmp.mapping.confirm({
+            select = true
+          }),
+          ["<C-Space>"] = cmp.mapping.complete(),
+        }),
+        sources = {
+          { name = "nvim_lsp" },
+        },
+      })
+    end,
+  },
+
+  --- lsp servers
+  "neovim/nvim-lspconfig",
   config = function()
     -- Enable LSP servers using new Neovim 0.11 API
-
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     -- Configure tailwind BEFORE enabling
