@@ -63,7 +63,6 @@ return {
                 width = "50%",
               },
               position = "50%",
-              border = "rounded",
             }
           }
         })
